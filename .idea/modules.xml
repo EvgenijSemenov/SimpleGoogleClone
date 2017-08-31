@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/SimpleGoogleClone.iml" filepath="$PROJECT_DIR$/.idea/modules/SimpleGoogleClone.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../SimpleGoogleClone/.idea/modules/SimpleGoogleClone_main.iml" filepath="$PROJECT_DIR$/../SimpleGoogleClone/.idea/modules/SimpleGoogleClone_main.iml" group="SimpleGoogleClone" />
+      <module fileurl="file://$PROJECT_DIR$/../SimpleGoogleClone/.idea/modules/SimpleGoogleClone_test.iml" filepath="$PROJECT_DIR$/../SimpleGoogleClone/.idea/modules/SimpleGoogleClone_test.iml" group="SimpleGoogleClone" />
+    </modules>
+  </component>
+</project>
