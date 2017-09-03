@@ -23,6 +23,11 @@ public class WebPageServiceImpl implements WebPageService {
     @Override
     public String indexByUrl(String indexUrl, int maxUrlsSearchDeep) {
         Set<String> urls = new HashSet<>();
+
+        if (!indexUrl.startsWith("http://") && !indexUrl.startsWith("https://")) {
+            indexUrl = "http://" + indexUrl;
+        }
+
         urls.add(indexUrl);
 
         indexProcessorTask.setUrls(urls);
