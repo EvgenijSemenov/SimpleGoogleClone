@@ -23,7 +23,7 @@ public class IndexProcessorTask implements Runnable {
     private volatile Set<String> urls = new HashSet<>();
     private int maxSearchUrlDeep = 1;
 
-    private Logger logger = Logger.getLogger(this.getClass().getName());
+    Logger logger = Logger.getLogger(this.getClass().getName());
 
     @Override
     public void run() {
@@ -54,7 +54,15 @@ public class IndexProcessorTask implements Runnable {
             waitWhileAllTasksFinish(taskExecutor);
 
             saveIndexedUrls(indexUrls);
+
+            logger.info("Urls count - " + callbackUrls.size());
         }
+
+
+        logger.info("IndexProcessorTask finished.");
+        logger.info("Pages indexed - " + urls.size());
+        logger.info("-----------------------------------");
+    }
 
     private void saveIndexedUrls(Set<String> indexUrls) {
         urls.addAll(indexUrls);
