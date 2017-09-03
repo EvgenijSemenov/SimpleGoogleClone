@@ -1,11 +1,15 @@
 package app.task;
 
 import org.springframework.context.annotation.Scope;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
 
 @Component
 @Scope("prototype")
 public class IndexProcessorTask implements Runnable {
+
+    @Autowired
+    ThreadPoolTaskExecutor taskExecutor;
 
     private volatile Set<String> urls = new HashSet<>();
     private int maxSearchUrlDeep = 1;
