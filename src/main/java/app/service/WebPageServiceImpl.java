@@ -1,5 +1,7 @@
 package app.service;
 
+import app.dao.WebPageDaoImpl;
+import app.model.WebPage;
 import app.task.IndexProcessorTask;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.task.TaskExecutor;
@@ -15,6 +17,9 @@ public class WebPageServiceImpl implements WebPageService {
     @Autowired
     IndexProcessorTask indexProcessorTask;
 
+    @Autowired
+    WebPageDaoImpl webPageDao;
+
     @Override
     public String indexByUrl(String indexUrl, int maxUrlsSearchDeep) {
         Set<String> urls = new HashSet<>();
@@ -26,6 +31,11 @@ public class WebPageServiceImpl implements WebPageService {
         taskExecutor.execute(indexProcessorTask);
 
         return null;
+    }
+
+    @Override
+    public List<WebPage> fulltextSearch(String text) {
+        return webPageDao.fullTextSearch(text);
     }
 
 }
