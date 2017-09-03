@@ -16,14 +16,14 @@ public class IndexPageController {
 
     @RequestMapping(path = "/index", method=GET)
     public String indexPage() {
-        return "index";
+        return "index/index";
     }
 
     @RequestMapping(path = "/index", method=POST)
     public String indexingPage(@RequestParam(value="q") String url) {
         webPageService.indexByUrl(url, 2);
 
-        return "indexResult";
+        return "index/indexResult";
     }
 
 }
