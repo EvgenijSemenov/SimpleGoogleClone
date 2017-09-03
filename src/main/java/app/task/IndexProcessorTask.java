@@ -7,4 +7,8 @@ import org.springframework.stereotype.Component;
 @Scope("prototype")
 public class IndexProcessorTask implements Runnable {
 
+    @Override
+    public void run() {
+    }
+
 }
