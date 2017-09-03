@@ -29,14 +29,6 @@ public class IndexTask implements Runnable {
         this.url = url;
     }
 
-    public WebPage getWebPage() {
-        return webPage;
-    }
-
-    public void setWebPage(WebPage webPage) {
-        this.webPage = webPage;
-    }
-
     public Set<String> getUrls() {
         return urls;
     }
