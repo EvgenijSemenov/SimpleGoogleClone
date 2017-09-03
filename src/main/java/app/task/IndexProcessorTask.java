@@ -32,6 +32,9 @@ public class IndexProcessorTask implements Runnable {
     }
 
     public void indexProcess(int maxSearchUrlDeep) {
+        logger.info("-----------------------------------");
+        logger.info("IndexProcessorTask start");
+        taskExecutor.afterPropertiesSet();
     }
 
     }
