@@ -1,6 +1,6 @@
 package app.task;
 
-import app.dao.WebPageDaoImpl;
+import app.dao.WebPageDao;
 import app.model.WebPage;
 import org.jsoup.Connection.Response;
 import org.jsoup.HttpStatusException;
@@ -25,7 +25,7 @@ public class IndexTask implements Runnable {
     private Logger logger = Logger.getLogger(this.getClass().getName());
 
     @Autowired
-    private WebPageDaoImpl webPageDao;
+    private WebPageDao webPageDao;
 
     private String url;
     private volatile Set<String> urls;

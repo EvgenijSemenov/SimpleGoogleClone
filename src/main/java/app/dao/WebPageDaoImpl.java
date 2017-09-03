@@ -2,10 +2,13 @@ package app.dao;
 
 import app.model.WebPage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.UncategorizedSQLException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,8 +16,9 @@ import java.util.List;
 
 import java.util.logging.Logger;
 
-@Component
-public class WebPageDaoImpl implements WebPageDAO {
+@Repository
+@Qualifier("webPageDao")
+public class WebPageDaoImpl implements WebPageDao {
     
     private JdbcTemplate jdbcTemplate;
 
