@@ -16,6 +16,11 @@ public class IndexTask implements Runnable {
     @Override
     public void run() {
         Response response = loadDocument(url);
+
+        if (iSuccessResponse(response)) {
+        }
+    }
+
     public String getUrl() {
         return url;
     }
@@ -40,6 +45,8 @@ public class IndexTask implements Runnable {
         this.urls = urls;
     }
 
+    private boolean iSuccessResponse(Response response) {
+        return Objects.nonNull(response) && response.statusCode() == 200;
     }
 
     private Response loadDocument(String url) {
