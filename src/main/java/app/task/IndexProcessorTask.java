@@ -78,6 +78,11 @@ public class IndexProcessorTask implements Runnable {
         }
     }
 
+    private Set<String> excludeIndexedUrl(final Set<String> urls, final Set<String> callbackUrls) {
+        callbackUrls.removeAll(urls);
+        return callbackUrls;
+    }
+
     private void waitWhileAllTasksFinish(ThreadPoolTaskExecutor taskExecutor) {
         while (taskExecutor.getActiveCount() > 0) {
             try {
