@@ -52,7 +52,12 @@ public class IndexProcessorTask implements Runnable {
             executeIndexTasks(indexUrls, callbackUrls);
 
             waitWhileAllTasksFinish(taskExecutor);
+
+            saveIndexedUrls(indexUrls);
         }
+
+    private void saveIndexedUrls(Set<String> indexUrls) {
+        urls.addAll(indexUrls);
     }
 
     private Set<String> getUrlsForIndex(int urlSearchDeep, Set<String> callbackUrls) {
