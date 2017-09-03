@@ -1,8 +1,11 @@
 package app.task;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
+import java.util.HashSet;
+import java.util.Set;
 
 import java.util.logging.Logger;
 
@@ -35,6 +38,27 @@ public class IndexProcessorTask implements Runnable {
         logger.info("-----------------------------------");
         logger.info("IndexProcessorTask start");
         taskExecutor.afterPropertiesSet();
+
+        Set<String> callbackUrls = new HashSet<>();
+
+        for (int urlsSearchDeep = 0; urlsSearchDeep < maxSearchUrlDeep; urlsSearchDeep++) {
+
+            Set<String> indexUrls = getUrlsForIndex(urlsSearchDeep, callbackUrls);
+        }
+    }
+
+    private Set<String> getUrlsForIndex(int urlSearchDeep, Set<String> callbackUrls) {
+        Set<String> indexUrls = new HashSet<>();
+
+        if (urlSearchDeep == 0) {
+            indexUrls.addAll(urls);
+        } else {
+            indexUrls.addAll(excludeIndexedUrl(urls, callbackUrls));
+        }
+
+        return indexUrls;
+    }
+
     }
 
     }
