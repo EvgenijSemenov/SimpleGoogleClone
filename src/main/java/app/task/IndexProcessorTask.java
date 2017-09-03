@@ -50,6 +50,8 @@ public class IndexProcessorTask implements Runnable {
             Set<String> indexUrls = getUrlsForIndex(urlsSearchDeep, callbackUrls);
 
             executeIndexTasks(indexUrls, callbackUrls);
+
+            waitWhileAllTasksFinish(taskExecutor);
         }
     }
 
@@ -71,6 +73,14 @@ public class IndexProcessorTask implements Runnable {
         }
     }
 
+    private void waitWhileAllTasksFinish(ThreadPoolTaskExecutor taskExecutor) {
+        while (taskExecutor.getActiveCount() > 0) {
+            try {
+                Thread.sleep(300);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private IndexTask newIndexTaskInstance(String url, Set<String> links) {
