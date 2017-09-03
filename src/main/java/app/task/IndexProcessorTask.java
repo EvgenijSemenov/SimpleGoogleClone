@@ -1,6 +1,7 @@
 package app.task;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
@@ -12,6 +13,9 @@ import java.util.logging.Logger;
 @Component
 @Scope("prototype")
 public class IndexProcessorTask implements Runnable {
+
+    @Autowired
+    private ApplicationContext appContext;
 
     @Autowired
     ThreadPoolTaskExecutor taskExecutor;
@@ -44,6 +48,8 @@ public class IndexProcessorTask implements Runnable {
         for (int urlsSearchDeep = 0; urlsSearchDeep < maxSearchUrlDeep; urlsSearchDeep++) {
 
             Set<String> indexUrls = getUrlsForIndex(urlsSearchDeep, callbackUrls);
+
+            executeIndexTasks(indexUrls, callbackUrls);
         }
     }
 
@@ -59,8 +65,20 @@ public class IndexProcessorTask implements Runnable {
         return indexUrls;
     }
 
+    private void executeIndexTasks(Set<String> indexUrls, Set<String> callbackUrls) {
+        for (String url : indexUrls) {
+            taskExecutor.execute(newIndexTaskInstance(url, callbackUrls));
+        }
     }
 
+    }
+
+    private IndexTask newIndexTaskInstance(String url, Set<String> links) {
+        IndexTask indexTask = (IndexTask) appContext.getBean("indexTask");
+        indexTask.setUrl(url);
+        indexTask.setUrls(links);
+
+        return indexTask;
     }
 
 }
