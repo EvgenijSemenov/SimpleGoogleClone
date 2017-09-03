@@ -16,6 +16,30 @@ public class IndexTask implements Runnable {
     @Override
     public void run() {
         Response response = loadDocument(url);
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public WebPage getWebPage() {
+        return webPage;
+    }
+
+    public void setWebPage(WebPage webPage) {
+        this.webPage = webPage;
+    }
+
+    public Set<String> getUrls() {
+        return urls;
+    }
+
+    public void setUrls(Set<String> urls) {
+        this.urls = urls;
+    }
+
     }
 
     private Response loadDocument(String url) {
