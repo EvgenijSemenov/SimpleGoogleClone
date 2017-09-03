@@ -1,6 +1,7 @@
 package app.task;
 
 import app.dao.WebPageDaoImpl;
+import app.model.WebPage;
 import org.jsoup.Connection.Response;
 import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
@@ -11,6 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 import java.util.logging.Logger;
 
 @Component
@@ -32,6 +37,7 @@ public class IndexTask implements Runnable {
         if (iSuccessResponse(response)) {
             Document document = Jsoup.parse(response.body());
             webPageDao.saveOrUpdate(getWebPageFromDocument(document));
+            urls.addAll(getUrlsFromDocument(document));
         }
     }
 
@@ -79,6 +85,16 @@ public class IndexTask implements Runnable {
         return webPage;
     }
 
+    private Set<String> getUrlsFromDocument(Document doc) {
+        Set<String> urls = new HashSet<>();
+        Elements links = doc.select("a[href]");
+
+        for (Element link : links) {
+            if (link.attr("abs:href").startsWith("http://") || link.attr("abs:href").startsWith("https://"))
+                urls.add(link.attr("abs:href"));
+        }
+
+        return urls;
     }
 
 }
