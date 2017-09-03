@@ -11,18 +11,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import java.util.logging.Logger;
+
 @Component
 @Scope("prototype")
 public class IndexTask implements Runnable {
 
+    private Logger logger = Logger.getLogger(this.getClass().getName());
 
     @Autowired
     private WebPageDaoImpl webPageDao;
+
+    private String url;
+    private volatile Set<String> urls;
+
     @Override
     public void run() {
         Response response = loadDocument(url);
 
         if (iSuccessResponse(response)) {
+            Document document = Jsoup.parse(response.body());
+            webPageDao.saveOrUpdate(getWebPageFromDocument(document));
         }
     }
 
@@ -59,6 +68,15 @@ public class IndexTask implements Runnable {
         }
 
         return response;
+    }
+
+    private WebPage getWebPageFromDocument(Document doc) {
+        WebPage webPage = new WebPage();
+        webPage.setUrl(url);
+        webPage.setTitle(doc.title());
+        webPage.setText(doc.text());
+
+        return webPage;
     }
 
     }
