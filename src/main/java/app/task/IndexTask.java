@@ -1,11 +1,13 @@
 package app.task;
 
+import app.dao.WebPageDaoImpl;
 import org.jsoup.Connection.Response;
 import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +15,9 @@ import org.springframework.stereotype.Component;
 @Scope("prototype")
 public class IndexTask implements Runnable {
 
+
+    @Autowired
+    private WebPageDaoImpl webPageDao;
     @Override
     public void run() {
         Response response = loadDocument(url);
