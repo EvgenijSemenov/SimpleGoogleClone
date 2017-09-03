@@ -1,6 +1,6 @@
 package app.service;
 
-import app.dao.WebPageDaoImpl;
+import app.dao.WebPageDao;
 import app.model.WebPage;
 import app.task.IndexProcessorTask;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +8,7 @@ import org.springframework.core.task.TaskExecutor;
 import org.springframework.stereotype.Service;
 import java.util.*;
 
-@Service
+@Service("webPageService")
 public class WebPageServiceImpl implements WebPageService {
 
     @Autowired
@@ -18,13 +18,13 @@ public class WebPageServiceImpl implements WebPageService {
     IndexProcessorTask indexProcessorTask;
 
     @Autowired
-    WebPageDaoImpl webPageDao;
+    WebPageDao webPageDao;
 
     @Override
     public String indexByUrl(String indexUrl, int maxUrlsSearchDeep) {
         Set<String> urls = new HashSet<>();
 
-        if (!indexUrl.startsWith("http://") && !indexUrl.startsWith("https://")) {
+        if (isUrlHasHttpPrefix(indexUrl)) {
             indexUrl = "http://" + indexUrl;
         }
 
@@ -43,4 +43,7 @@ public class WebPageServiceImpl implements WebPageService {
         return webPageDao.fullTextSearch(text);
     }
 
+    private boolean isUrlHasHttpPrefix(String url) {
+        return !(url.startsWith("http://") && url.startsWith("https://"));
+    }
 }
