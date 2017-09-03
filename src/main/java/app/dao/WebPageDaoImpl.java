@@ -4,15 +4,18 @@ import app.model.WebPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.UncategorizedSQLException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 import javax.sql.DataSource;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 import java.util.logging.Logger;
 
 @Component
 public class WebPageDaoImpl implements WebPageDAO {
-
+    
     private JdbcTemplate jdbcTemplate;
 
     private Logger logger = Logger.getLogger(this.getClass().getName());
@@ -35,7 +38,23 @@ public class WebPageDaoImpl implements WebPageDAO {
 
     @Override
     public List<WebPage> fullTextSearch(String text) {
-        return null;
+        String sql = "SELECT url, title, text FROM index_page WHERE MATCH (title, text) AGAINST ('"+text+"') LIMIT 10";
+        List<WebPage> webPages = jdbcTemplate.query(sql, new RowMapper<WebPage>() {
+
+            @Override
+            public WebPage mapRow(ResultSet rs, int rowNum) throws SQLException {
+                WebPage webPage = new WebPage();
+
+                webPage.setUrl(rs.getString("url"));
+                webPage.setTitle(rs.getString("title"));
+                webPage.setText(rs.getString("text"));
+
+                return webPage;
+            }
+
+        });
+
+        return webPages;
     }
 
 }
