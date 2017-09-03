@@ -1,4 +1,9 @@
 spring.mvc.view.prefix: /WEB-INF/jsp/
 spring.mvc.view.suffix: .jsp
 
+jdbc.driverClassName=com.mysql.jdbc.Driver
+jdbc.url=jdbc:mysql://localhost:3306/google_clone
+jdbc.username=root
+jdbc.password=secret
+
 max.index.task.thread.count: 25
