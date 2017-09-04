@@ -1,12 +1,13 @@
 package app.dao;
 
+import app.sql.SQLQuery;
+import app.sql.builder.WebPageSqlQueryBuilder;
 import app.model.WebPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.UncategorizedSQLException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
@@ -19,7 +20,10 @@ import java.util.logging.Logger;
 @Repository
 @Qualifier("webPageDao")
 public class WebPageDaoImpl implements WebPageDao {
-    
+
+    @Autowired
+    private WebPageSqlQueryBuilder webPageSqlQueryBuilder;
+
     private JdbcTemplate jdbcTemplate;
 
     private Logger logger = Logger.getLogger(this.getClass().getName());
@@ -31,10 +35,10 @@ public class WebPageDaoImpl implements WebPageDao {
 
     @Override
     public synchronized void saveOrUpdate(WebPage webPage) {
-        String sql = "REPLACE INTO index_page (url, title, text) VALUES (?, ?, ?)";
+        SQLQuery query = webPageSqlQueryBuilder.saveOrUpdate(webPage);
         try {
             // TODO find solution for saving utf8mb4 text in db
-            jdbcTemplate.update(sql, webPage.getUrl(), webPage.getTitle(), webPage.getText());
+            jdbcTemplate.update(query.getQuery(), query.getArgs());
         } catch (UncategorizedSQLException e) {
             logger.warning("Page from " + webPage.getUrl() + " url not saved in db. Throwed UncategorizedSQLException");
         }
@@ -42,13 +46,19 @@ public class WebPageDaoImpl implements WebPageDao {
 
     @Override
     public List<WebPage> fullTextSearch(String text) {
-        String sql = "SELECT url, title, text FROM index_page WHERE MATCH (title, text) AGAINST ('"+text+"') LIMIT 10";
-        List<WebPage> webPages = jdbcTemplate.query(sql, new RowMapper<WebPage>() {
+        SQLQuery query = webPageSqlQueryBuilder.fullTextSearch(text);
+
+        return jdbcTemplate.query(query.getQuery(), query.getArgs(), rowMapper());
+    }
+
+    private RowMapper<WebPage> rowMapper() {
+        return new RowMapper<WebPage>() {
 
             @Override
             public WebPage mapRow(ResultSet rs, int rowNum) throws SQLException {
                 WebPage webPage = new WebPage();
 
+                webPage.setId(rs.getLong("id"));
                 webPage.setUrl(rs.getString("url"));
                 webPage.setTitle(rs.getString("title"));
                 webPage.setText(rs.getString("text"));
@@ -56,9 +66,7 @@ public class WebPageDaoImpl implements WebPageDao {
                 return webPage;
             }
 
-        });
-
-        return webPages;
+        };
     }
 
 }
