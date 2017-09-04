@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
@@ -20,10 +22,13 @@ public class IndexPageController {
     }
 
     @RequestMapping(path = "/index", method=POST)
-    public String indexingPage(@RequestParam(value="q") String url) {
-        webPageService.indexByUrl(url, 2);
+    public ModelAndView indexingPage(@RequestParam(value="q") String url) {
+        ModelAndView model = new ModelAndView("index/indexResult");
 
-        return "index/indexResult";
+        String indexMessage = webPageService.indexByUrl(url, 2);
+        model.addObject("indexMessage", indexMessage);
+
+        return model;
     }
 
 }
