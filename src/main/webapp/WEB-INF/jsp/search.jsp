@@ -4,6 +4,11 @@
 <!DOCTYPE html>
 <c:import url="/WEB-INF/jsp/component/head.jsp"/>
 <body>
+<div class="row top-menu">
+    <div class="col-md-10 col-md-offset-1">
+        <h1>Simple Google Clone</h1>
+	</div>
+</div>
 <div class="row">
     <div class="col-md-10 col-md-offset-1">
         <c:choose>
