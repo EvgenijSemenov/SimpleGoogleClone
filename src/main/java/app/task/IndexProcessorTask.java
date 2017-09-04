@@ -18,10 +18,10 @@ public class IndexProcessorTask implements Runnable {
     private ApplicationContext appContext;
 
     @Autowired
-    ThreadPoolTaskExecutor taskExecutor;
+    ThreadPoolTaskExecutor indexTaskExecutor;
 
     private volatile Set<String> urls = new HashSet<>();
-    private int maxSearchUrlDeep = 1;
+    private int maxSearchUrlDeep = 3;
 
     Logger logger = Logger.getLogger(this.getClass().getName());
 
@@ -41,7 +41,6 @@ public class IndexProcessorTask implements Runnable {
     public void indexProcess(int maxSearchUrlDeep) {
         logger.info("-----------------------------------");
         logger.info("IndexProcessorTask start");
-        taskExecutor.afterPropertiesSet();
 
         Set<String> callbackUrls = new HashSet<>();
 
@@ -51,7 +50,7 @@ public class IndexProcessorTask implements Runnable {
 
             executeIndexTasks(indexUrls, callbackUrls);
 
-            waitWhileAllTasksFinish(taskExecutor);
+            waitWhileAllTasksFinish(indexTaskExecutor);
 
             saveIndexedUrls(indexUrls);
 
@@ -82,7 +81,7 @@ public class IndexProcessorTask implements Runnable {
 
     private void executeIndexTasks(Set<String> indexUrls, Set<String> callbackUrls) {
         for (String url : indexUrls) {
-            taskExecutor.execute(newIndexTaskInstance(url, callbackUrls));
+            indexTaskExecutor.execute(newIndexTaskInstance(url, callbackUrls));
         }
     }
 
