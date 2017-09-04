@@ -4,38 +4,42 @@ import app.dao.WebPageDao;
 import app.model.WebPage;
 import app.task.IndexProcessorTask;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.task.TaskExecutor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 import java.util.*;
+import java.util.logging.Logger;
 
 @Service("webPageService")
 public class WebPageServiceImpl implements WebPageService {
 
     @Autowired
-    TaskExecutor taskExecutor;
+    private ThreadPoolTaskExecutor indexProcessorTaskExecutor;
 
     @Autowired
-    IndexProcessorTask indexProcessorTask;
+    private WebPageDao webPageDao;
 
     @Autowired
-    WebPageDao webPageDao;
+    private ApplicationContext appContext;
+
+    @Value( "${max.index.processor.task.thread.count}" )
+    private int maxIndexProcessorTaskThreadCount;
+
+    private Logger logger = Logger.getLogger(this.getClass().getName());
 
     @Override
     public String indexByUrl(String indexUrl, int maxUrlsSearchDeep) {
-        Set<String> urls = new HashSet<>();
-
-        if (isUrlHasHttpPrefix(indexUrl)) {
-            indexUrl = "http://" + indexUrl;
+        String resultMessage = null;
+        if(isMaxIndexProcessorThreadRun(indexProcessorTaskExecutor)) {
+            resultMessage = "All index thread busy now. Url added in index queue.";
+        } else {
+            resultMessage = "Url index started.";
         }
 
-        urls.add(indexUrl);
+        executeIndexProcessorTask(indexUrl, maxUrlsSearchDeep);
 
-        indexProcessorTask.setUrls(urls);
-        indexProcessorTask.setMaxSearchUrlDeep(maxUrlsSearchDeep);
-
-        taskExecutor.execute(indexProcessorTask);
-
-        return null;
+        return resultMessage;
     }
 
     @Override
@@ -43,7 +47,31 @@ public class WebPageServiceImpl implements WebPageService {
         return webPageDao.fullTextSearch(text);
     }
 
-    private boolean isUrlHasHttpPrefix(String url) {
-        return !(url.startsWith("http://") && url.startsWith("https://"));
+    private boolean isMaxIndexProcessorThreadRun(ThreadPoolTaskExecutor indexProcessorTaskExecutor) {
+        return indexProcessorTaskExecutor.getActiveCount() >= maxIndexProcessorTaskThreadCount;
     }
+
+    private void executeIndexProcessorTask(String indexUrl, int maxUrlsSearchDeep) {
+        indexProcessorTaskExecutor.execute(newIndexProcessorTaskInstance(indexUrl, maxUrlsSearchDeep));
+    }
+
+    private boolean isUrlHasHttpPrefix(String url) {
+        return url.startsWith("http://") || url.startsWith("https://");
+    }
+
+    private IndexProcessorTask newIndexProcessorTaskInstance(String url, int maxUrlsSearchDeep) {
+        Set<String> urls = new HashSet<>();
+
+        if (!isUrlHasHttpPrefix(url)) {
+            url = "http://" + url;
+        }
+        urls.add(url);
+
+        IndexProcessorTask indexProcessorTask = (IndexProcessorTask) appContext.getBean("indexProcessorTask");
+        indexProcessorTask.setUrls(urls);
+        indexProcessorTask.setMaxSearchUrlDeep(maxUrlsSearchDeep);
+
+        return indexProcessorTask;
+    }
+
 }
