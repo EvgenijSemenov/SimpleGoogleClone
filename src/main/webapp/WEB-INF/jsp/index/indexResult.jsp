@@ -6,7 +6,7 @@
 <body>
     <div class="row">
         <div class="col-md-12 text-center">
-            <span>Url added in index...</span>
+            <span>${indexMessage}</span>
         </div>
     </div>
 </body>
