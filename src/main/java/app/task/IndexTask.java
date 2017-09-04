@@ -80,7 +80,7 @@ public class IndexTask implements Runnable {
         WebPage webPage = new WebPage();
         webPage.setUrl(url);
         webPage.setTitle(doc.title());
-        webPage.setText(doc.text());
+        webPage.setText(doc.body().text());
 
         return webPage;
     }
