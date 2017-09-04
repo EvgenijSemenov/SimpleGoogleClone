@@ -24,4 +24,14 @@ public class WebPageSqlQueryBuilder {
         return new SQLQuery(query, args);
     }
 
+    public SQLQuery fullTextSearch(String searchText) {
+        String query = "SELECT *, MATCH (`" + TITLE_COLUMN + "`, `" + TEXT_COLUMN + "`) AGAINST (?) AS `relevance` " +
+                "FROM `" + TABLE + "` " +
+                "WHERE MATCH (`" + TITLE_COLUMN + "`, `" + TEXT_COLUMN + "`) AGAINST (?) " +
+                "ORDER BY `relevance` DESC LIMIT 10";
+        Object[] args = new Object[] { searchText, searchText };
+
+        return new SQLQuery(query, args);
+    }
+
 }
