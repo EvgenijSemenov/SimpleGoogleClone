@@ -1,5 +1,6 @@
 package app.dao;
 
+import app.dao.mapper.WebPageRowMapper;
 import app.sql.SQLQuery;
 import app.sql.builder.WebPageSqlQueryBuilder;
 import app.model.WebPage;
@@ -48,25 +49,7 @@ public class WebPageDaoImpl implements WebPageDao {
     public List<WebPage> fullTextSearch(String text) {
         SQLQuery query = webPageSqlQueryBuilder.fullTextSearch(text);
 
-        return jdbcTemplate.query(query.getQuery(), query.getArgs(), rowMapper());
-    }
-
-    private RowMapper<WebPage> rowMapper() {
-        return new RowMapper<WebPage>() {
-
-            @Override
-            public WebPage mapRow(ResultSet rs, int rowNum) throws SQLException {
-                WebPage webPage = new WebPage();
-
-                webPage.setId(rs.getLong("id"));
-                webPage.setUrl(rs.getString("url"));
-                webPage.setTitle(rs.getString("title"));
-                webPage.setText(rs.getString("text"));
-
-                return webPage;
-            }
-
-        };
+        return jdbcTemplate.query(query.getQuery(), query.getArgs(), new WebPageRowMapper());
     }
 
 }
