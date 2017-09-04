@@ -13,7 +13,7 @@ public class SpringTaskExecutorConfig {
     private int maxIndexTaskThreadCount;
 
     @Bean
-    public TaskExecutor indexTaskExecutor() {
+    public ThreadPoolTaskExecutor indexTaskExecutor() {
         ThreadPoolTaskExecutor t = new ThreadPoolTaskExecutor();
         t.setCorePoolSize(maxIndexTaskThreadCount);
         t.setMaxPoolSize(100);
