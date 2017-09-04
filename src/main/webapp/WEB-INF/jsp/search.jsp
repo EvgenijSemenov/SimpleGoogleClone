@@ -6,15 +6,20 @@
 <body>
 <div class="row">
     <div class="col-md-10 col-md-offset-1">
-        <c:if test="${not empty searchResultList}">
-            <c:forEach var="listValue" items="${searchResultList}">
-                <a href="${listValue.url}" target="_blank">
-                    <b>${listValue.title}</b></br>
-                    <span class="url">${listValue.url}</span>
-                </a>
-                </br></br>
-            </c:forEach>
-        </c:if>
+        <c:choose>
+            <c:when test="${not empty searchResultList}">
+                <c:forEach var="listValue" items="${searchResultList}">
+                    <a href="${listValue.url}" target="_blank">
+                        <b>${listValue.title}</b></br>
+                        <span class="url">${listValue.url}</span>
+                    </a>
+                    </br></br>
+                </c:forEach>
+            </c:when>
+            <c:otherwise>
+                <h2 class="text-center">Your search did not match any documents.</h2>
+            </c:otherwise>
+        </c:choose>
 	</div>
 </div>
 </body>
