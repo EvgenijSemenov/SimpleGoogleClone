@@ -26,8 +26,7 @@ public class IndexPageController {
                                      @RequestParam(value="searchUrlDeep", required = false, defaultValue = "3") int searchUrlDeep) {
         ModelAndView model = new ModelAndView("index/indexResult");
 
-        String indexMessage = webPageService.indexByUrl(url, searchUrlDeep);
-        model.addObject("indexMessage", indexMessage);
+        model.addObject("indexMessage", webPageService.indexByUrl(url, searchUrlDeep));
 
         return model;
     }
