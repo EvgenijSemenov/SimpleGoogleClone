@@ -18,12 +18,12 @@ public class IndexProcessorTask implements Runnable {
     private ApplicationContext appContext;
 
     @Autowired
-    ThreadPoolTaskExecutor indexTaskExecutor;
+    private ThreadPoolTaskExecutor indexTaskExecutor;
 
     private volatile Set<String> urls = new HashSet<>();
     private int maxSearchUrlDeep = 3;
 
-    Logger logger = Logger.getLogger(this.getClass().getName());
+    private Logger logger = Logger.getLogger(this.getClass().getName());
 
     @Override
     public void run() {
