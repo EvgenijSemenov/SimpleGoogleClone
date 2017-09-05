@@ -34,7 +34,7 @@ public class WebPageDaoImpl implements WebPageDao {
     private Logger logger = Logger.getLogger(this.getClass().getName());
 
     @Override
-    public void saveOrUpdate(WebPage webPage) {
+    public synchronized void saveOrUpdate(WebPage webPage) {
         SQLQuery query = webPageSqlQueryBuilder.saveOrUpdate(webPage);
         try {
             // TODO find solution for saving utf8mb4 text in db
