@@ -44,7 +44,8 @@ public class IndexProcessorTask implements Runnable {
 
         Set<String> callbackUrls = new HashSet<>();
 
-        for (int urlsSearchDeep = 0; urlsSearchDeep < maxSearchUrlDeep; urlsSearchDeep++) {
+        for (int urlsSearchDeep = 1; urlsSearchDeep <= maxSearchUrlDeep; urlsSearchDeep++) {
+            logger.info("IndexProcessorTask for url " + loggerIndexUrl + " search url deep - " + urlsSearchDeep);
 
             Set<String> indexUrls = getUrlsForIndex(urlsSearchDeep, callbackUrls);
 
