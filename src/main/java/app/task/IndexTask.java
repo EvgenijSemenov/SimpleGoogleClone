@@ -16,13 +16,10 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-import java.util.logging.Logger;
 
 @Component
 @Scope("prototype")
 public class IndexTask implements Runnable {
-
-    private Logger logger = Logger.getLogger(this.getClass().getName());
 
     @Autowired
     private WebPageDao webPageDao;

@@ -9,7 +9,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 import java.util.*;
-import java.util.logging.Logger;
 
 @Service("webPageService")
 public class WebPageServiceImpl implements WebPageService {
@@ -26,7 +25,6 @@ public class WebPageServiceImpl implements WebPageService {
     @Value( "${max.index.processor.task.thread.count}" )
     private int maxIndexProcessorTaskThreadCount;
 
-    private Logger logger = Logger.getLogger(this.getClass().getName());
 
     @Override
     public String indexByUrl(String indexUrl, int maxUrlsSearchDeep) {
