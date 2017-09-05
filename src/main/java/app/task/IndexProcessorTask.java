@@ -21,7 +21,7 @@ public class IndexProcessorTask implements Runnable {
     private ThreadPoolTaskExecutor indexTaskExecutor;
 
     private volatile Set<String> urls = new HashSet<>();
-    private int maxSearchUrlDeep = 3;
+    private int maxSearchUrlDeep = 1;
 
     private Logger logger = Logger.getLogger(this.getClass().getName());
 
