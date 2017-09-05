@@ -66,7 +66,7 @@ public class IndexProcessorTask implements Runnable {
     private Set<String> getUrlsForIndex(int urlSearchDeep, Set<String> callbackUrls) {
         Set<String> indexUrls = new HashSet<>();
 
-        if (urlSearchDeep == 0) {
+        if (urlSearchDeep == 1) {
             indexUrls.addAll(urls);
         } else {
             indexUrls.addAll(excludeIndexedUrl(urls, callbackUrls));
