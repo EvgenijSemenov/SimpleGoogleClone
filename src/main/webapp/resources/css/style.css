@@ -7,3 +7,12 @@
     border-bottom: 1px solid #dcdcdc;
     margin-bottom: 10px;
 }
+
+.index-url-text-input {
+    width: 225px;
+}
+
+.url-search-deep-text-input {
+    width: 280px;
+    margin-top: 5px;
+}
