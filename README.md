@@ -9,8 +9,8 @@ Full page search for web pages
 ```SQL
 CREATE TABLE `index_page` (
 	`id` BIGINT(20) NOT NULL AUTO_INCREMENT,
-	`url` VARCHAR(300) NOT NULL COLLATE 'utf8mb4_unicode_ci',
-	`title` VARCHAR(300) NOT NULL COLLATE 'utf8mb4_unicode_ci',
+	`url` VARCHAR(500) NOT NULL COLLATE 'utf8mb4_unicode_ci',
+	`title` TEXT NOT NULL COLLATE 'utf8mb4_unicode_ci',
 	`text` LONGTEXT NOT NULL COLLATE 'utf8mb4_unicode_ci',
 	PRIMARY KEY (`id`),
 	UNIQUE INDEX `UNIQUE_URL` (`url`),
