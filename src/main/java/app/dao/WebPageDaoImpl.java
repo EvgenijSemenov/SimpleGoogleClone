@@ -24,14 +24,14 @@ public class WebPageDaoImpl implements WebPageDao {
     @Autowired
     private WebPageSqlQueryBuilder webPageSqlQueryBuilder;
 
-    private JdbcTemplate jdbcTemplate;
-
-    private Logger logger = Logger.getLogger(this.getClass().getName());
-
     @Autowired
     public WebPageDaoImpl(final DataSource dataSource) {
         jdbcTemplate = new JdbcTemplate(dataSource);
     }
+
+    private JdbcTemplate jdbcTemplate;
+
+    private Logger logger = Logger.getLogger(this.getClass().getName());
 
     @Override
     public void saveOrUpdate(WebPage webPage) {

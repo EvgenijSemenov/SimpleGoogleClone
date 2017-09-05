@@ -42,4 +42,5 @@ public class WebPageSqlQueryBuilder {
 
         return new SQLQuery(query, args);
     }
+
 }

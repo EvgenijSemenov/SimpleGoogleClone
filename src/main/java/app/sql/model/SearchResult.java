@@ -1,7 +1,6 @@
 package app.sql.model;
 
 import app.model.WebPage;
-
 import java.util.List;
 
 public class SearchResult {
