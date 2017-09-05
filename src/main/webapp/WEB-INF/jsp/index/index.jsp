@@ -17,8 +17,13 @@
         </div>
         <div class="col-md-12 text-center">
             <form id="index-form" action="/index" method="POST" onsubmit="return onSubmit();">
-                <input id= "index-url-text" type="text">
-                <input type="submit" value="Index">
+                <div class="row">
+                    <input id= "index-url-text" class="index-url-text-input" type="text" placeholder="Enter url...">
+                    <input type="submit" value="Index">
+                </div>
+                <div class="row">
+                    <input id= "url-search-deep" class="url-search-deep-text-input" type="text" name="searchUrlDeep" placeholder="Max search url deep. Optional, 3 by default.">
+                </div>
             </form>
         </div>
     </div>
