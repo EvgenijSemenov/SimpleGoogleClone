@@ -67,7 +67,6 @@ public class IndexTask implements Runnable {
         try {
             response = Jsoup.connect(url).execute();
         } catch (HttpStatusException e) {
-            logger.info(url);
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
