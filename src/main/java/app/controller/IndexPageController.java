@@ -22,10 +22,11 @@ public class IndexPageController {
     }
 
     @RequestMapping(path = "/index", method=POST)
-    public ModelAndView indexingPage(@RequestParam(value="q") String url) {
+    public ModelAndView indexingPage(@RequestParam(value="q") String url,
+                                     @RequestParam(value="searchUrlDeep", required = false, defaultValue = "3") int searchUrlDeep) {
         ModelAndView model = new ModelAndView("index/indexResult");
 
-        String indexMessage = webPageService.indexByUrl(url, 2);
+        String indexMessage = webPageService.indexByUrl(url, searchUrlDeep);
         model.addObject("indexMessage", indexMessage);
 
         return model;
