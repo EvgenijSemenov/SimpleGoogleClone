@@ -7,3 +7,4 @@ jdbc.username=root
 jdbc.password=secret
 
 max.index.task.thread.count: 25
+max.index.processor.task.thread.count: 3
