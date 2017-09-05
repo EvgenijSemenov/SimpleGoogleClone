@@ -1,10 +1,6 @@
 package app.service;
 
-import app.model.WebPage;
 import app.sql.model.SearchResult;
-
-import java.util.List;
-import java.util.Set;
 
 public interface WebPageService {
 

@@ -1,7 +1,6 @@
 package app.service;
 
 import app.dao.WebPageDao;
-import app.model.WebPage;
 import app.sql.model.SearchResult;
 import app.task.IndexProcessorTask;
 import org.springframework.beans.factory.annotation.Autowired;

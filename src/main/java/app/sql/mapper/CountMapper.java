@@ -1,8 +1,6 @@
 package app.sql.mapper;
 
-import app.model.WebPage;
 import org.springframework.jdbc.core.RowMapper;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
