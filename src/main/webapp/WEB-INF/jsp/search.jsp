@@ -20,6 +20,17 @@
                     </a>
                     </br></br>
                 </c:forEach>
+
+                <ul class="pagination">
+                    <% int resultCount = (Integer) request.getAttribute("searchResultCount");
+                    int pageCount = resultCount/10;
+                    if (resultCount%10 > 0) {
+                        pageCount++;
+                    }
+                    for(int i = 1; i <= pageCount; i+=1) { %>
+                        <li><a href="search?q=${searchText}&start=<%=i*10-9%>"><%=i%></a></li>
+                    <% } %>
+                </ul>
             </c:when>
             <c:otherwise>
                 <h2 class="text-center">Your search did not match any documents.</h2>
