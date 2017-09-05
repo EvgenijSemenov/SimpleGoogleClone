@@ -1,4 +1,4 @@
-package app.dao.mapper;
+package app.sql.mapper;
 
 import app.model.WebPage;
 import org.springframework.jdbc.core.RowMapper;
