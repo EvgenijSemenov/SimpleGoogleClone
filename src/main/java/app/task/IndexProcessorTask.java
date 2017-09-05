@@ -39,8 +39,8 @@ public class IndexProcessorTask implements Runnable {
     }
 
     public void indexProcess(int maxSearchUrlDeep) {
-        logger.info("-----------------------------------");
-        logger.info("IndexProcessorTask start");
+        String loggerIndexUrl = urls.iterator().next();
+        logger.info("IndexProcessorTask for url " + loggerIndexUrl + " start. Search url deep - " + maxSearchUrlDeep);
 
         Set<String> callbackUrls = new HashSet<>();
 
@@ -53,14 +53,9 @@ public class IndexProcessorTask implements Runnable {
             waitWhileAllTasksFinish(indexTaskExecutor);
 
             saveIndexedUrls(indexUrls);
-
-            logger.info("Urls count - " + callbackUrls.size());
         }
 
-
-        logger.info("IndexProcessorTask finished.");
-        logger.info("Pages indexed - " + urls.size());
-        logger.info("-----------------------------------");
+        logger.info("IndexProcessorTask for url " + loggerIndexUrl + " finished." );
     }
 
     private void saveIndexedUrls(Set<String> indexUrls) {
