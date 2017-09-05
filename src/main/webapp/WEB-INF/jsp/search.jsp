@@ -13,10 +13,10 @@
     <div class="col-md-10 col-md-offset-1">
         <c:choose>
             <c:when test="${not empty searchResultList}">
-                <c:forEach var="listValue" items="${searchResultList}">
-                    <a href="${listValue.url}" target="_blank">
-                        <b>${listValue.title}</b></br>
-                        <span class="url">${listValue.url}</span>
+                <c:forEach var="webPage" items="${searchResultList}">
+                    <a href="${webPage.url}" target="_blank">
+                        <b>${webPage.title}</b></br>
+                        <span class="url">${webPage.url}</span>
                     </a>
                     </br></br>
                 </c:forEach>
