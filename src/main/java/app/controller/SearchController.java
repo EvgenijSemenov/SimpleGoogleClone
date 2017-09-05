@@ -8,22 +8,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
-
 @Controller
 public class SearchController {
 
     @Autowired
     WebPageService webPageService;
 
-
-    @RequestMapping(path = "/", method=GET)
+    @RequestMapping(path = "/")
     public String index() {
         return "index";
     }
 
-    @RequestMapping(path = "/search", method=GET)
+    @RequestMapping(path = "/search")
     public ModelAndView search(@RequestParam(value="q") String searchText,
                                @RequestParam(value="start", required = false, defaultValue = "1") int startResultNumber) {
         ModelAndView model = new ModelAndView("search");
