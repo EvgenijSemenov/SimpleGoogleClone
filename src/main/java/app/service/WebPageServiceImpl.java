@@ -2,6 +2,7 @@ package app.service;
 
 import app.dao.WebPageDao;
 import app.model.WebPage;
+import app.sql.model.SearchResult;
 import app.task.IndexProcessorTask;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -43,8 +44,8 @@ public class WebPageServiceImpl implements WebPageService {
     }
 
     @Override
-    public List<WebPage> fulltextSearch(String text) {
-        return webPageDao.fullTextSearch(text);
+    public SearchResult fulltextSearch(String searchText, int startResultNumber) {
+        return webPageDao.fullTextSearch(searchText, startResultNumber);
     }
 
     private boolean isMaxIndexProcessorThreadRun(ThreadPoolTaskExecutor indexProcessorTaskExecutor) {
