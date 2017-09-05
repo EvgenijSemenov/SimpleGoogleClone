@@ -25,15 +25,9 @@ public class WebPageServiceImpl implements WebPageService {
     @Value( "${max.index.processor.task.thread.count}" )
     private int maxIndexProcessorTaskThreadCount;
 
-
     @Override
     public String indexByUrl(String indexUrl, int maxUrlsSearchDeep) {
-        String resultMessage = null;
-        if(isMaxIndexProcessorThreadRun(indexProcessorTaskExecutor)) {
-            resultMessage = "All index thread busy now. Url added in index queue.";
-        } else {
-            resultMessage = "Url index started.";
-        }
+        String resultMessage = indexByUrlResultMessage();
 
         executeIndexProcessorTask(indexUrl, maxUrlsSearchDeep);
 
@@ -43,6 +37,17 @@ public class WebPageServiceImpl implements WebPageService {
     @Override
     public SearchResult fulltextSearch(String searchText, int startResultNumber) {
         return webPageDao.fullTextSearch(searchText, startResultNumber);
+    }
+
+    private String indexByUrlResultMessage() {
+        String resultMessage = null;
+        if(isMaxIndexProcessorThreadRun(indexProcessorTaskExecutor)) {
+            resultMessage = "All index thread busy now. Url added in index queue.";
+        } else {
+            resultMessage = "Url index started.";
+        }
+
+        return resultMessage;
     }
 
     private boolean isMaxIndexProcessorThreadRun(ThreadPoolTaskExecutor indexProcessorTaskExecutor) {
